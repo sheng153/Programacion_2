@@ -2,9 +2,9 @@ package com.mycompany.programacion_2;
 
 import java.util.Scanner;
 
-public class Cliente extends Persona {
+public class Empleado extends Persona {
     
-    public Cliente(Scanner scan) {
+    public Empleado(Scanner scan) {
         super(scan);
         
     }
