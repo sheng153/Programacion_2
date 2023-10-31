@@ -51,7 +51,7 @@ public final class Menu {
                 }
                 case 3 -> {
                     
-                    r.print_list(state.print());
+                    r.print_list();
                     continue;
                 }
                 case 4 -> {
@@ -101,16 +101,15 @@ public final class Menu {
 
 enum ActualMenu {
     MAIN,
-    CLIENT(true, "Cliente"),
-    EMPLOYEE(false, "Empleado");
+    CLIENT(true),
+    EMPLOYEE(false);
     
     private boolean is_client;
     private String print;
     
     private ActualMenu() {}
-    private ActualMenu(boolean is_client, String print) {
+    private ActualMenu(boolean is_client) {
         this.is_client = is_client;
-        this.print = print;
     }
     
     public boolean is_client() { return is_client; }
@@ -120,13 +119,15 @@ enum ActualMenu {
 
 class Register {
     enum Type {
-        CLIENTE(true),
-        EMPLEADO(false);
+        CLIENTE(true, "Cliente"),
+        EMPLEADO(false, "Empleado");
         
         private final boolean is_client;
+        private final String print;
         
-        Type(boolean is_client) {
+        Type(boolean is_client, String print) {
             this.is_client = is_client;
+            this.print = print;
         }
         
         public static Type new_category(boolean is_client) {
@@ -134,6 +135,7 @@ class Register {
         }
         
         public boolean is_client() { return is_client; }
+        public String print() { return print; }
     }
     private final Type categoria;
     private final List<Persona> list;
@@ -162,13 +164,13 @@ class Register {
         }
     }
     
-    public void print_list(String type) {
+    public void print_list() {
         if (list.isEmpty()) { return; }
-        System.out.println((index + 1) + "° " + type);
+        System.out.println((index + 1) + "° " + categoria.print());
         list.get(index).print();
         index++;
         if (index < list.size()) {
-            print_list(type);
+            print_list();
         }
         index = 0;
     }
