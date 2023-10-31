@@ -56,7 +56,7 @@ public final class Menu {
 }
 
 class ClientRegister {
-    private List<Cliente> clientes;
+    private final List<Cliente> clientes;
     private int index;
     
     public ClientRegister() {
@@ -74,9 +74,11 @@ class ClientRegister {
     }
     
     public void remove_client(Scanner scan) {
+        int n;
         while (true) {
-            System.out.println("Ingrese el dni del cliente a eliminar: ");
-            if (remove_from_list(scan.nextInt())) { break; }
+            System.out.println("Ingrese el dni del cliente a eliminar (0 para volver al menu): ");
+            n = scan.nextInt();
+            if (remove_from_list(n) || n == 0) { break; }
             System.out.println("Numero no existente en la base de datos.");
         }
     }
@@ -92,14 +94,16 @@ class ClientRegister {
     }
     
     private boolean remove_from_list(int dni) {
-        if(clientes.get(index).dni() != dni) {
+        index = 0;
+        boolean ret = false;
+        while(index < clientes.size()) {
+            if (clientes.get(index).dni() == dni) {
+                clientes.remove(index);
+                ret = true;
+            }
             index++;
-            remove_from_list(dni);
-        } else if (clientes.get(index).dni() == dni) {
-            index = 0;
-            clientes.remove(index);
-            return true;
         }
-        return false;
+        index = 0;
+        return ret;
     }
 }
