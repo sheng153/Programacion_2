@@ -11,6 +11,6 @@ public class Cliente extends Persona {
     
     @Override
     public void print() {
-        System.out.println("dni: " + dni);
+        System.out.println("\tdni: " + dni);
     }
 }

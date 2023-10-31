@@ -12,7 +12,7 @@ public abstract class Persona {
         while(true) {
             System.out.println("Ingrese el DNI: ");
             tdni = scan.nextInt();
-            if (tdni > 9999999 && tdni < 10000000) { this.dni = tdni; break; }
+            if (tdni > 9999999 && tdni < 100000000) { this.dni = tdni; break; }
             System.out.println("Ingrese un documento valido.");
         }
     }

@@ -50,7 +50,8 @@ public final class Menu {
                     continue;
                 }
                 case 3 -> {
-                    r.print_list();
+                    
+                    r.print_list(state.print());
                     continue;
                 }
                 case 4 -> {
@@ -100,18 +101,21 @@ public final class Menu {
 
 enum ActualMenu {
     MAIN,
-    CLIENT(true),
-    EMPLOYEE(false);
+    CLIENT(true, "Cliente"),
+    EMPLOYEE(false, "Empleado");
     
     private boolean is_client;
+    private String print;
     
     private ActualMenu() {}
-    private ActualMenu(boolean is_client) {
+    private ActualMenu(boolean is_client, String print) {
         this.is_client = is_client;
+        this.print = print;
     }
     
     public boolean is_client() { return is_client; }
     public boolean is_employee() { return !is_client; }
+    public String print() {return print;}
 }
 
 class Register {
@@ -158,12 +162,13 @@ class Register {
         }
     }
     
-    public void print_list() {
+    public void print_list(String type) {
         if (list.isEmpty()) { return; }
+        System.out.println((index + 1) + "° " + type);
         list.get(index).print();
         index++;
         if (index < list.size()) {
-            print_list();
+            print_list(type);
         }
         index = 0;
     }
