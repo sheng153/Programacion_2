@@ -14,7 +14,10 @@ public final class Menu {
         scan = new Scanner(System.in);
         clientes = new Register(true);
         empleados = new Register(false);
-        loop: while(true){
+    }
+    
+    public void start() {
+    loop: while(true){
             state = ActualMenu.MAIN;
             set_options();
             switch(get_option()) {
@@ -50,15 +53,22 @@ public final class Menu {
                     continue;
                 }
                 case 3 -> {
-                    
                     r.print_list();
                     continue;
                 }
                 case 4 -> {
-                    break;
+                    if(state.is_employee()) 
+                        break loop;
+                    while(!r.add_transaction(scan)) {}
+                    continue;
+                }
+                case 5 -> {
+                    if(state.is_client()) 
+                        break loop;
+                    
+                    continue;
                 }
             }
-        break;
         }
     }
     
@@ -75,7 +85,8 @@ public final class Menu {
                 System.out.println("1. Cargar cliente.");
                 System.out.println("2. Eliminar cliente.");
                 System.out.println("3. Mostrar registro.");
-                System.out.println("4. Salir");
+                System.out.println("4. Agregar transferencia");
+                System.out.println("5. Salir");
                 break;
             case EMPLOYEE:
                 System.out.println("Empleados");
@@ -88,7 +99,9 @@ public final class Menu {
     }
     
     private int get_option() {
-        return Integer.parseInt(scan.nextLine());
+        int ret = scan.nextInt();
+        scan.nextLine();
+        return ret;
     }
     
     public static Menu set_menu() {
@@ -160,7 +173,6 @@ class Register {
             System.out.println("Ingrese el dni a eliminar (0 para volver al menu): ");
             n = scan.nextInt();
             scan.nextLine();
-            scan.nextLine();
             if (remove_from_list(n) || n == 0) { break; }
             System.out.println("Numero no existente en la base de datos.");
         }
@@ -189,5 +201,28 @@ class Register {
         }
         index = 0;
         return ret;
+    }
+    
+    public boolean add_transaction(Scanner scan) {
+        index = 0;
+        List<Integer> indexes = new ArrayList();
+        int dni;
+        System.out.println("Indique el DNI del cliente: ");
+        dni = scan.nextInt();
+        scan.nextLine();
+        while(index < list.size()) {
+            if(list.get(index).dni == dni)
+                indexes.add(index);
+            index++;
+        }
+        index = 0;
+        if(indexes.isEmpty())
+            return false;
+        Cliente c = ((Cliente)list.get(indexes.remove(0)));
+        c.add_transaction();
+        for (int i: indexes) {
+            list.add(i, c);
+        }
+        return true;
     }
 }
