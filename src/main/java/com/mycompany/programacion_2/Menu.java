@@ -88,7 +88,7 @@ public final class Menu {
     }
     
     private int get_option() {
-        return scan.nextInt();
+        return Integer.parseInt(scan.nextLine());
     }
     
     public static Menu set_menu() {
@@ -159,6 +159,8 @@ class Register {
         while (true) {
             System.out.println("Ingrese el dni a eliminar (0 para volver al menu): ");
             n = scan.nextInt();
+            scan.nextLine();
+            scan.nextLine();
             if (remove_from_list(n) || n == 0) { break; }
             System.out.println("Numero no existente en la base de datos.");
         }
